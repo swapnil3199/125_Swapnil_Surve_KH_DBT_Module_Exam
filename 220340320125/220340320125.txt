@@ -1,0 +1,183 @@
+use cdac22;
+Create table DEPT(
+DEPTNO int(2),
+DNAME varchar(15),
+LOC varchar(10)
+);
+
+
+select * from dept;
+
+
+insert into dept(DEPTNO,DNAME,LOC ) values
+(10 ,'ACCOUNTING ','NEW YORK'),
+(20, 'RESEARCH', 'DALLAS'),
+(30, 'SALES', 'CHICAGO'),
+(40, 'OPERATIONS', 'BOSTON');
+
+
+
+
+Create table EMP 
+(
+EMPNO int(4),
+ENAME varchar(10),
+JOB varchar(9),
+HIREDATE date,
+SAL float(7,2),
+COMM float(7,2),
+DEPTNO int(2)
+);
+
+
+
+
+
+insert into EMP(EMPNO,ENAME,JOB,HIREDATE,SAL,COMM,DEPTNO ) values 
+(7839, 'KING', 'MANAGER', '1991-11-17', 5000, NULL, 10),
+(7698, 'BLAKE', 'CLERK', '1981-05-01', 2850, NULL, 30),
+(7782, 'CLARK', 'MANAGER', '1981-06-09', 2450, NULL, 10),
+(7566, 'JONES', 'CLERK', '1981-04-02', 2975, NULL, 20),
+(7654, 'MARTIN','SALESMAN', '1981-09-28', 1250, 1400, 30),
+(7499, 'ALLEN', 'SALESMAN', '1981-02-20', 1600, 300, 30);
+
+
+
+
+-- 3. Display all the employees where SAL between 2500 and 5000 (inclusive of both).
+
+select * from emp where sal between 2500 and 5000;
+
+o/p- 
+		# EMPNO, ENAME, JOB, HIREDATE, SAL, COMM, DEPTNO
+		  7839, KING, MANAGER, 1991-11-17, 5000.00, , 10
+		  7698, BLAKE, CLERK, 1981-05-01, 2850.00, , 30
+		  7566, JONES, CLERK, 1981-04-02, 2975.00, , 20
+
+
+
+-- 4.Display all the ENAMEs in descending order of ENAME.
+
+select ename from emp 
+order by ename desc ;
+
+
+o/p -
+		# ename
+		MARTIN
+		KING
+		JONES
+		CLARK
+		BLAKE
+		ALLEN
+
+
+-- 5. Display all the JOBs in lowercase.
+
+  select lower(job) from emp; 
+
+o/p-
+	# lower(job)
+		manager
+		clerk
+		manager
+		clerk
+		salesman
+		salesman
+
+
+
+-- 6. Display the ENAMEs and the lengths of the ENAMEs.
+
+	select ename , length(ename) from emp;
+
+o/p- # ename, length(ename)
+		KING, 4
+		BLAKE, 5
+		CLARK, 5
+		JONES, 5
+		MARTIN, 6
+		ALLEN, 5
+
+
+-- 7. Display the DEPTNO and the count of employees who belong to that DEPTNO .
+	
+	select deptno ,count(deptno) from emp 
+    group by deptno;
+
+		o/p- 
+
+			# deptno, count(deptno)
+				10, 2
+				30, 3
+				20, 1
+
+
+-- 8. Display the DNAMEs and the ENAMEs who belong to that DNAME.
+
+select dname ,ename from emp, dept
+where dept.deptno = emp.deptno;
+
+
+o/p- # dname, ename
+	ACCOUNTING , KING
+	SALES, BLAKE
+	ACCOUNTING , CLARK
+	RESEARCH, JONES
+	SALES, MARTIN
+	SALES, ALLEN
+
+
+
+ -- 10. Display the HRA for each employee given that HRA is 20% of SAL.
+ 
+     select ename ,sal*0.2 'HRA' from emp;
+
+
+o/p-
+		# ename, HRA
+	KING, 1000.00
+	BLAKE, 570.00
+	CLARK, 490.00
+	JONES, 595.00
+	MARTIN, 250.00
+	ALLEN, 320.00
+
+
+
+drop table tempp;
+create table tempp
+(
+output varchar(15)
+);
+delimiter //
+create procedure PROC1(x VARCHAR(15), y VARCHAR(15))
+begin
+	if strcmp(x , y) then 
+			insert into tempp values  ('EQUAL');
+	else	
+			insert into tempp values ('NOT EQUAL');
+	end if;
+    
+end; //
+delimiter ;
+set @string1='swapnil';
+set @string2='sagar';
+call PROC1('swapnil','sagar');
+
+select * from tempp;
+      drop procedure proc1;
+
+
+o/p-
+      # output
+		EQUAL
+		EQUAL
+		EQUAL
+
+
+
+
+
+
+	
